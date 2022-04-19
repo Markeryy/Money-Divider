@@ -19,7 +19,7 @@ class _GetAmountState extends State<GetAmount> {
 
   double currentPercentTotal = 0;
 
-//used for validation of input
+  //used for validation of input
   List<MoneyDivider> moneyDividerList = [];
 
   //function to validate if string is a number
@@ -80,14 +80,62 @@ class _GetAmountState extends State<GetAmount> {
     );
   }
 
+  Widget showAddDivider() {
+    return ElevatedButton(
+      child: const Text('Add Divider'),
+      onPressed: () {
+        // BOTTOM SHEET
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => Column(
+            children: [
+
+              // GET DIVIDER TITLE
+              Container(
+                padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
+                child: buildTextField('Divider Title', _dividerTitle),
+              ),
+
+              // GET DIVIDER PERCENTAGE
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: buildTextField('Divider Percent', _dividerPercent)
+              ), 
+
+              // ADD BUTTON
+              
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    addDividerButton(),
+                    ElevatedButton(
+                      child: const Text('Close'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+              ),
+              
+            ]
+          ),
+        );
+        
+      },
+    );
+  }
+
   Widget clearDividerButton() {
     return ElevatedButton(
       child: const Text('Clear'),
       onPressed: () {
         setState(() {
           moneyDividerList.clear(); // clear the percentage
-          _dividerTitle.clear();    // clear the text fields
+          _totalAmount.clear();     // clear the text fields
+          _dividerTitle.clear();    
           _dividerPercent.clear();
+          
         });
       },
     );
@@ -104,11 +152,36 @@ class _GetAmountState extends State<GetAmount> {
             children: [
         
               // GET AMOUNT
-              const Text('Enter amount to be divided'),
-              buildTextField('Amount', _totalAmount),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: const Text(
+                  'Enter amount to be divided',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30
+                  ),
+                )
+              ),
+
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: buildTextField('Amount', _totalAmount),
+              ),
               
-              //moneyDividerList.isEmpty ? const Text('No dividers yet!') 
-              //:
+              // ROW OF BUTTONS
+              
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    showAddDivider(),
+                    clearDividerButton(),
+                  ],
+                ),
+              ),
+
+              // WILL SHOW THE DIVIDERS
               ...(moneyDividerList).map((divider) {
                 return Container(
                 child: Column(
@@ -119,11 +192,7 @@ class _GetAmountState extends State<GetAmount> {
                 ),
                 );
               }).toList(),
-      
-              buildTextField('Divider Title', _dividerTitle),     // GET DIVIDER TITLE
-              buildTextField('Divider Percent', _dividerPercent), // GET DIVIDER PERCENTAGE
-              addDividerButton(),  
-              clearDividerButton(),
+              
             ],
           ),
         ),
