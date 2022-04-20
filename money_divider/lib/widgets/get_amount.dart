@@ -16,9 +16,10 @@ class _GetAmountState extends State<GetAmount> {
   final TextEditingController _dividerTitle = TextEditingController();
   final TextEditingController _dividerPercent = TextEditingController();
   
-  final _amountFormKey = GlobalKey<FormState>();
-  final _formKey = GlobalKey<FormState>();  // to help with validation
-  final bool _validate = false;
+  final _amountFormKey = GlobalKey<FormState>(); // for amount form validation
+  final _formKey = GlobalKey<FormState>();  // for divider form validation
+  final bool _validateAmount = false;
+  final bool _validateDivider =  false;
 
   double currentPercentTotal = 0; // to help with validating total percentage (up to 100 only)
 
@@ -37,7 +38,7 @@ class _GetAmountState extends State<GetAmount> {
       decoration: InputDecoration(
       border: const OutlineInputBorder(),
       labelText: 'Amount',
-      errorText: _validate ? 'Value can\'t be empty' : null),
+      errorText: _validateAmount ? 'Value can\'t be empty' : null),
       validator: (value) {
         
         //validates if value in controller/textfield is not empty
@@ -65,7 +66,7 @@ class _GetAmountState extends State<GetAmount> {
       decoration: InputDecoration(
       border: const OutlineInputBorder(),
       labelText: label,
-      errorText: _validate ? 'Value can\'t be empty' : null),
+      errorText: _validateDivider ? 'Value can\'t be empty' : null),
       validator: (value) {
         
         //validates if value in controller/textfield is not empty
@@ -85,7 +86,7 @@ class _GetAmountState extends State<GetAmount> {
       decoration: InputDecoration(
       border: const OutlineInputBorder(),
       labelText: label,
-      errorText: _validate ? 'Value can\'t be empty' : null),
+      errorText: _validateDivider ? 'Value can\'t be empty' : null),
       validator: (value) {
         
         //validates if value in controller/textfield is not empty
@@ -110,7 +111,7 @@ class _GetAmountState extends State<GetAmount> {
 
   Widget w_addDividerButton() {
     return ElevatedButton(
-      child: const Text('Save divider'),
+      child: const Text('Save Divider'),
       onPressed: () {
 
         // check first if divider form is validated 
@@ -157,6 +158,7 @@ class _GetAmountState extends State<GetAmount> {
 
         // check first if amount is validated
         if (_amountFormKey.currentState!.validate()) {
+
           // BOTTOM SHEET
           showModalBottomSheet(
             context: context,
@@ -181,15 +183,20 @@ class _GetAmountState extends State<GetAmount> {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        
+                        // SAVE DIVIDER BUTTON
                         w_addDividerButton(),
+
+                        // CLOSE BUTTON
                         ElevatedButton(
                           child: const Text('Close'),
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
+
                       ],
                     ),
                   ),
