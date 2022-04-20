@@ -17,7 +17,7 @@ class _GetAmountState extends State<GetAmount> {
   final _formKey = GlobalKey<FormState>();  // to help with validation
   final bool _validate = false;
 
-  double currentPercentTotal = 0;
+  double currentPercentTotal = 0; // to help with validating total percentage (up to 100 only)
 
   //used for validation of input
   List<MoneyDivider> moneyDividerList = [];
@@ -35,10 +35,10 @@ class _GetAmountState extends State<GetAmount> {
       labelText: label,
       errorText: _validate ? 'Value can\'t be empty' : null),
       validator: (value) {
-
+        
         //validates if value in controller/textfield is not empty
         if (value == null || value.isEmpty) {
-          return '$label, it cannot be empty!';
+          return '$label cannot be empty!';
         }
 
         //checks if input is integer (for integer forms)
@@ -47,7 +47,7 @@ class _GetAmountState extends State<GetAmount> {
         }
 
         //if budgeting exceeded 100%
-        if (_controller == _dividerPercent && currentPercentTotal + double.parse(value) > 100) {
+        if (_controller == _dividerPercent && (currentPercentTotal + double.parse(value) > 100)) {
           return 'Budgeting exceeded the 100%';
         }
 
@@ -69,8 +69,9 @@ class _GetAmountState extends State<GetAmount> {
             name: _dividerTitle.text + " (${_dividerPercent.text}%)",
             percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
           );
-
+         
           setState(() {
+            currentPercentTotal += double.parse(_dividerPercent.text);  // increase total percent
             moneyDividerList.add(moneyDivider); // add divider
             _dividerTitle.clear();  // clear the text buttons
             _dividerPercent.clear();
@@ -84,44 +85,62 @@ class _GetAmountState extends State<GetAmount> {
     return ElevatedButton(
       child: const Text('Add Divider'),
       onPressed: () {
+        
+        // VALIDATOR FOR ENTERING AMOUNT
+        if (!_isNumeric(_totalAmount.text)) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please enter a valid amount.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          return;
+        }
+
         // BOTTOM SHEET
         showModalBottomSheet(
           context: context,
-          builder: (context) => Column(
-            children: [
-
-              // GET DIVIDER TITLE
-              Container(
-                padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
-                child: buildTextField('Divider Title', _dividerTitle),
-              ),
-
-              // GET DIVIDER PERCENTAGE
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: buildTextField('Divider Percent', _dividerPercent)
-              ), 
-
-              // ADD BUTTON
-              
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    addDividerButton(),
-                    ElevatedButton(
-                      child: const Text('Close'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
+          builder: (context) => Form(
+            key: _formKey,
+            child: Column(
+              children: [
+          
+                // GET DIVIDER TITLE
+                Container(
+                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
+                  child: buildTextField('Divider Title', _dividerTitle),
                 ),
-              ),
-              
-            ]
+          
+                // GET DIVIDER PERCENTAGE
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: buildTextField('Divider Percent', _dividerPercent)
+                ), 
+          
+                // ADD BUTTON
+                
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      addDividerButton(),
+                      ElevatedButton(
+                        child: const Text('Close'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                
+              ]
+            ),
           ),
         );
-        
+
       },
     );
   }
@@ -131,11 +150,11 @@ class _GetAmountState extends State<GetAmount> {
       child: const Text('Clear'),
       onPressed: () {
         setState(() {
+          currentPercentTotal = 0;
           moneyDividerList.clear(); // clear the percentage
           _totalAmount.clear();     // clear the text fields
           _dividerTitle.clear();    
           _dividerPercent.clear();
-          
         });
       },
     );
@@ -145,8 +164,7 @@ class _GetAmountState extends State<GetAmount> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-      child: Form(
-        key: _formKey,
+
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -169,7 +187,6 @@ class _GetAmountState extends State<GetAmount> {
               ),
               
               // ROW OF BUTTONS
-              
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Row(
@@ -196,7 +213,6 @@ class _GetAmountState extends State<GetAmount> {
             ],
           ),
         ),
-      ),
     );
   }
 }
