@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 import '../models/money_divider.dart';
@@ -14,6 +16,7 @@ class _GetAmountState extends State<GetAmount> {
   final TextEditingController _dividerTitle = TextEditingController();
   final TextEditingController _dividerPercent = TextEditingController();
   
+  final _amountFormKey = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();  // to help with validation
   final bool _validate = false;
 
@@ -23,13 +26,62 @@ class _GetAmountState extends State<GetAmount> {
   List<MoneyDivider> moneyDividerList = [];
 
   //function to validate if string is a number
-  bool _isNumeric(String result) {
+  bool f_isNumeric(String result) {
     return double.tryParse(result) != null;
   }
 
-  Widget buildTextField(String label, TextEditingController _controller) {
+  Widget w_buildAmountTextField() {
     return TextFormField(
-      controller: _controller,
+      controller: _totalAmount,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+      border: const OutlineInputBorder(),
+      labelText: 'Amount',
+      errorText: _validate ? 'Value can\'t be empty' : null),
+      validator: (value) {
+        
+        //validates if value in controller/textfield is not empty
+        if (value == null || value.isEmpty) {
+          return 'Amount cannot be empty!';
+        }
+
+        //checks if input is integer (for amount)
+        if (!f_isNumeric(value)) {
+          return 'Only input numbers!';
+        }
+        return null;
+      },
+
+      onChanged: (textfieldValue) {
+        print(textfieldValue);
+        print('Changed!');
+      },
+    );
+  }
+
+  Widget w_buildDividerTitleTextField(String label) {
+    return TextFormField(
+      controller: _dividerTitle,
+      decoration: InputDecoration(
+      border: const OutlineInputBorder(),
+      labelText: label,
+      errorText: _validate ? 'Value can\'t be empty' : null),
+      validator: (value) {
+        
+        //validates if value in controller/textfield is not empty
+        if (value == null || value.isEmpty) {
+          return '$label cannot be empty!';
+        }
+        
+        return null;
+      },
+    );
+  }
+
+  Widget w_buildDividerPercentTextField(String label) {
+    return TextFormField(
+      controller: _dividerPercent,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
       border: const OutlineInputBorder(),
       labelText: label,
@@ -42,12 +94,12 @@ class _GetAmountState extends State<GetAmount> {
         }
 
         //checks if input is integer (for integer forms)
-        if ((_controller == _totalAmount || _controller == _dividerPercent) && !_isNumeric(value)) {
+        if (!f_isNumeric(value)) {
           return 'Only input numbers!';
         }
 
         //if budgeting exceeded 100%
-        if (_controller == _dividerPercent && (currentPercentTotal + double.parse(value) > 100)) {
+        if (currentPercentTotal + double.parse(value) > 100) {
           return 'Budgeting exceeded the 100%';
         }
 
@@ -56,12 +108,12 @@ class _GetAmountState extends State<GetAmount> {
     );
   }
 
-  Widget addDividerButton() {
+  Widget w_addDividerButton() {
     return ElevatedButton(
       child: const Text('Save divider'),
       onPressed: () {
 
-        // if form is validated 
+        // check first if divider form is validated 
         if (_formKey.currentState!.validate()) {
 
           // create divider
@@ -69,83 +121,21 @@ class _GetAmountState extends State<GetAmount> {
             name: _dividerTitle.text + " (${_dividerPercent.text}%)",
             percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
           );
-         
+        
           setState(() {
             currentPercentTotal += double.parse(_dividerPercent.text);  // increase total percent
             moneyDividerList.add(moneyDivider); // add divider
             _dividerTitle.clear();  // clear the text buttons
             _dividerPercent.clear();
+            Navigator.pop(context); // remove the sheet after adding
           });
         }
-      },
-    );
-  }
-
-  Widget showAddDivider() {
-    return ElevatedButton(
-      child: const Text('Add Divider'),
-      onPressed: () {
         
-        // VALIDATOR FOR ENTERING AMOUNT
-        if (!_isNumeric(_totalAmount.text)) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please enter a valid amount.'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-          return;
-        }
-
-        // BOTTOM SHEET
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => Form(
-            key: _formKey,
-            child: Column(
-              children: [
-          
-                // GET DIVIDER TITLE
-                Container(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
-                  child: buildTextField('Divider Title', _dividerTitle),
-                ),
-          
-                // GET DIVIDER PERCENTAGE
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: buildTextField('Divider Percent', _dividerPercent)
-                ), 
-          
-                // ADD BUTTON
-                
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      addDividerButton(),
-                      ElevatedButton(
-                        child: const Text('Close'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                
-              ]
-            ),
-          ),
-        );
-
       },
     );
   }
 
-  Widget clearDividerButton() {
+  Widget w_clearDividerButton() {
     return ElevatedButton(
       child: const Text('Clear'),
       onPressed: () {
@@ -156,6 +146,59 @@ class _GetAmountState extends State<GetAmount> {
           _dividerTitle.clear();    
           _dividerPercent.clear();
         });
+      },
+    );
+  }
+
+  Widget showAddDivider() {
+    return ElevatedButton(
+      child: const Text('Add Divider'),
+      onPressed: () {
+
+        // check first if amount is validated
+        if (_amountFormKey.currentState!.validate()) {
+          // BOTTOM SHEET
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => Form(
+              key: _formKey,
+              child: Column(
+                children: [
+            
+                  // GET DIVIDER TITLE
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
+                    child: w_buildDividerTitleTextField('Divider Title'),
+                  ),
+            
+                  // GET DIVIDER PERCENTAGE
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    child: w_buildDividerPercentTextField('Divider Percent'),
+                  ), 
+            
+                  // ADD BUTTON
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        w_addDividerButton(),
+                        ElevatedButton(
+                          child: const Text('Close'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                ],
+              ),
+            ),
+          );
+        }
       },
     );
   }
@@ -183,7 +226,10 @@ class _GetAmountState extends State<GetAmount> {
 
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: buildTextField('Amount', _totalAmount),
+                child: Form(
+                  key: _amountFormKey,
+                  child: w_buildAmountTextField(),
+                ),
               ),
               
               // ROW OF BUTTONS
@@ -193,7 +239,7 @@ class _GetAmountState extends State<GetAmount> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     showAddDivider(),
-                    clearDividerButton(),
+                    w_clearDividerButton(),
                   ],
                 ),
               ),
@@ -201,12 +247,12 @@ class _GetAmountState extends State<GetAmount> {
               // WILL SHOW THE DIVIDERS
               ...(moneyDividerList).map((divider) {
                 return Container(
-                child: Column(
-                  children: [
-                    Text(divider.name),
-                    Text(divider.percentage.toString())
-                  ],
-                ),
+                  child: Column(
+                    children: [
+                      Text(divider.name),
+                      Text(divider.percentage.toString())
+                    ],
+                  ),
                 );
               }).toList(),
               
