@@ -1,8 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-
+import './divider_card.dart';
 import '../models/money_divider.dart';
 
 class GetAmount extends StatefulWidget {
@@ -270,28 +269,9 @@ class _GetAmountState extends State<GetAmount> {
 
               // WILL SHOW THE DIVIDERS
               ...(moneyDividerList).map((divider) {
-                
-                return Card(
-                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.5),
-                  child: Column(
-                    children: [
-
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(divider.name),
-                      ),
-
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          _totalAmount.text.isEmpty
-                          ? '0'
-                          : (double.parse(_totalAmount.text) * divider.percentage/100).toString()
-                        ),
-                      )
-
-                    ],
-                  ),
+                return DividerCard(
+                  totalAmount: _totalAmount.text,
+                  divider: divider
                 );
               }).toList(),
               
