@@ -53,9 +53,24 @@ class _GetAmountState extends State<GetAmount> {
         return null;
       },
 
+      // update the divided amounts (if there are any) if the amount changes
       onChanged: (textfieldValue) {
-        print(textfieldValue);
-        print('Changed!');
+        if (f_isNumeric(_totalAmount.text) || _totalAmount.text.isEmpty) {
+
+          setState(() {}); // call setstate to rebuild the divider list
+          
+        } else {
+
+          // show scaffold warning
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please enter a valid amount.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+
+        }
       },
     );
   }
@@ -120,7 +135,8 @@ class _GetAmountState extends State<GetAmount> {
           // create divider
           MoneyDivider moneyDivider = MoneyDivider(
             name: _dividerTitle.text + " (${_dividerPercent.text}%)",
-            percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
+            percentage: double.parse(_dividerPercent.text),
+            //percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
           );
         
           setState(() {
@@ -257,7 +273,11 @@ class _GetAmountState extends State<GetAmount> {
                   child: Column(
                     children: [
                       Text(divider.name),
-                      Text(divider.percentage.toString())
+                      Text(
+                        _totalAmount.text.isEmpty
+                        ? '0'
+                        : (double.parse(_totalAmount.text) * divider.percentage/100).toString()
+                      )
                     ],
                   ),
                 );
