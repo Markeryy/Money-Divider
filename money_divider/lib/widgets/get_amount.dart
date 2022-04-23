@@ -1,4 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _GetAmountState extends State<GetAmount> {
 
   //used for validation of input
   List<MoneyDivider> moneyDividerList = [];
-
+  
   //function to validate if string is a number
   bool f_isNumeric(String result) {
     return double.tryParse(result) != null;
@@ -58,7 +59,7 @@ class _GetAmountState extends State<GetAmount> {
         if (f_isNumeric(_totalAmount.text) || _totalAmount.text.isEmpty) {
 
           setState(() {}); // call setstate to rebuild the divider list
-          
+
         } else {
 
           // show scaffold warning
@@ -269,15 +270,26 @@ class _GetAmountState extends State<GetAmount> {
 
               // WILL SHOW THE DIVIDERS
               ...(moneyDividerList).map((divider) {
-                return Container(
+                
+                return Card(
+                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(0.5),
                   child: Column(
                     children: [
-                      Text(divider.name),
-                      Text(
-                        _totalAmount.text.isEmpty
-                        ? '0'
-                        : (double.parse(_totalAmount.text) * divider.percentage/100).toString()
+
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(divider.name),
+                      ),
+
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          _totalAmount.text.isEmpty
+                          ? '0'
+                          : (double.parse(_totalAmount.text) * divider.percentage/100).toString()
+                        ),
                       )
+
                     ],
                   ),
                 );
