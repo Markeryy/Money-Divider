@@ -78,10 +78,12 @@ class _GetAmountState extends State<GetAmount> {
   Widget w_buildDividerTitleTextField(String label) {
     return TextFormField(
       controller: _dividerTitle,
+      textInputAction: TextInputAction.next,  // go to next input
       decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: label,
-      errorText: _validateDivider ? 'Value can\'t be empty' : null),
+        border: const OutlineInputBorder(),
+        labelText: label,
+        errorText: _validateDivider ? 'Value can\'t be empty' : null
+      ),
       validator: (value) {
         
         //validates if value in controller/textfield is not empty
