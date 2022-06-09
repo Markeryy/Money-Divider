@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+// widgets
 import './widgets/get_amount.dart'; // main widget
+import 'widgets/gradient_appbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Money Divider'),),
+      backgroundColor: const Color.fromRGBO(27, 22, 38, 1),
+      appBar: const GradientAppBar(),
       body: GetAmount(),
     );
   }

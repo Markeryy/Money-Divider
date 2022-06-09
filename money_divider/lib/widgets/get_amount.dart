@@ -127,10 +127,29 @@ class _GetAmountState extends State<GetAmount> {
   }
 
   Widget w_addDividerButton() {
-    return ElevatedButton(
-      child: const Text('Save Divider'),
-      onPressed: () {
+    return InkWell(
+      
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: // display different gradient
+            const LinearGradient(
+              colors: [Colors.red, Colors.purple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft
+            ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        child: const Text(
+          'Save Divider',
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
 
+      onTap: () {
         // check first if divider form is validated 
         if (_formKey.currentState!.validate()) {
 
@@ -149,15 +168,32 @@ class _GetAmountState extends State<GetAmount> {
             Navigator.pop(context); // remove the sheet after adding
           });
         }
-        
       },
     );
   }
 
   Widget w_clearDividerButton() {
-    return ElevatedButton(
-      child: const Text('Clear'),
-      onPressed: () {
+    return InkWell(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: // display different gradient
+            const LinearGradient(
+              colors: [Colors.red, Colors.purple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft
+            ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        child: const Text(
+          'Clear',
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
+      onTap: () {
         setState(() {
           currentPercentTotal = 0;
           moneyDividerList.clear(); // clear the percentage
@@ -170,10 +206,29 @@ class _GetAmountState extends State<GetAmount> {
   }
 
   Widget showAddDivider() {
-    return ElevatedButton(
-      child: const Text('Add Divider'),
-      onPressed: () {
+    return InkWell(
+      
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: // display different gradient
+            const LinearGradient(
+              colors: [Colors.red, Colors.purple],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft
+            ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        child: const Text(
+          'Add Divider',
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
 
+      onTap: () {
         // check first if amount is validated
         if (_amountFormKey.currentState!.validate()) {
 
@@ -199,18 +254,37 @@ class _GetAmountState extends State<GetAmount> {
             
                   // ADD BUTTON
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         
                         // SAVE DIVIDER BUTTON
                         w_addDividerButton(),
 
                         // CLOSE BUTTON
-                        ElevatedButton(
-                          child: const Text('Close'),
-                          onPressed: () {
+                        InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: // display different gradient
+                                const LinearGradient(
+                                  colors: [Colors.red, Colors.purple],
+                                  begin: Alignment.bottomRight,
+                                  end: Alignment.topLeft
+                                ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                            child: const Text(
+                              'Close',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+
+                          onTap: () {
                             Navigator.pop(context);
                           },
                         ),
@@ -259,9 +333,9 @@ class _GetAmountState extends State<GetAmount> {
               
               // ROW OF BUTTONS
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     showAddDivider(),
                     w_clearDividerButton(),
