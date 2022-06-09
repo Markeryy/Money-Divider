@@ -108,7 +108,7 @@ class _GetAmountState extends State<GetAmount> {
 
         //if budgeting exceeded 100%
         if (currentPercentTotal + double.parse(value) > 100) {
-          return 'Budgeting exceeded the 100%';
+          return 'Budgeting exceeded 100%! ${100-currentPercentTotal}% left to divide.';
         }
 
         return null;
@@ -145,8 +145,8 @@ class _GetAmountState extends State<GetAmount> {
 
           // create divider
           MoneyDivider moneyDivider = MoneyDivider(
-            name: _dividerTitle.text=="" 
-            ? "No title (${_dividerPercent.text}%)"
+            name: _dividerTitle.text.isEmpty 
+            ? "(${_dividerPercent.text}%)"
             :  _dividerTitle.text + " (${_dividerPercent.text}%)",
             percentage: double.parse(_dividerPercent.text),
             //percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
@@ -305,55 +305,56 @@ class _GetAmountState extends State<GetAmount> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-        
-              // GET AMOUNT
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: const Text(
-                  'Enter amount to be divided',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30
-                  ),
-                )
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+  
+          // GET AMOUNT
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: const Text(
+              'Enter amount to be divided',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30
               ),
+            )
+          ),
 
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Form(
-                  key: _amountFormKey,
-                  child: w_buildAmountTextField(),
-                ),
-              ),
-              
-              // ROW OF BUTTONS
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    showAddDivider(),
-                    w_clearDividerButton(),
-                  ],
-                ),
-              ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: Form(
+              key: _amountFormKey,
+              child: w_buildAmountTextField(),
+            ),
+          ),
+          
+          // ROW OF BUTTONS
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                showAddDivider(),
+                w_clearDividerButton(),
+              ],
+            ),
+          ),
 
-              // WILL SHOW THE DIVIDERS
-              ...(moneyDividerList).map((divider) {
+          // WILL SHOW THE DIVIDERS
+          Expanded(
+            child: ListView(
+              children: moneyDividerList.map((divider) {
                 return DividerCard(
                   totalAmount: _totalAmount.text,
                   divider: divider
                 );
               }).toList(),
-              
-            ],
+            ),
           ),
-        ),
+          
+        ],
+      ),
     );
   }
 }

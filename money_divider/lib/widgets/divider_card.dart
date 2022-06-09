@@ -23,12 +23,13 @@ class _DividerCardState extends State<DividerCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Column(
         children: [
 
           Container(
             padding: const EdgeInsets.all(8),
-            child: Text(widget.divider.name ?? "None"),
+            child: Text(widget.divider.name ?? ""),
           ),
 
           Container(
