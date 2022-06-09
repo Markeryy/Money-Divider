@@ -85,6 +85,14 @@ class _GetAmountState extends State<GetAmount> {
         border: const OutlineInputBorder(),
         labelText: label + " (optional)",
       ),
+      validator: (value) {
+
+        if (_dividerTitle.text.isNotEmpty && _dividerTitle.text.length > 100) {
+          return 'Maximum of 100 characters only!';
+        }
+
+        return null;
+      },
     );
   }
 
