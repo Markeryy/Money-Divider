@@ -23,6 +23,8 @@ class _GetAmountState extends State<GetAmount> {
 
   double currentPercentTotal = 0; // to help with validating total percentage (up to 100 only)
 
+  int dividerCount = 0;
+
   //used for validation of input
   List<MoneyDivider> moneyDividerList = [];
   
