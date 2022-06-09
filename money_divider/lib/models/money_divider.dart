@@ -3,12 +3,12 @@
 class MoneyDivider {
 
   // attributes
-  String name;
+  String? name;
   double percentage;
 
   // constructor
   MoneyDivider({
-    required this.name,
+    this.name,
     required this.percentage,
   });
 

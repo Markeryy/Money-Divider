@@ -82,17 +82,7 @@ class _GetAmountState extends State<GetAmount> {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         labelText: label,
-        errorText: _validateDivider ? 'Value can\'t be empty' : null
       ),
-      validator: (value) {
-        
-        //validates if value in controller/textfield is not empty
-        if (value == null || value.isEmpty) {
-          return '$label cannot be empty!';
-        }
-        
-        return null;
-      },
     );
   }
 
@@ -155,7 +145,9 @@ class _GetAmountState extends State<GetAmount> {
 
           // create divider
           MoneyDivider moneyDivider = MoneyDivider(
-            name: _dividerTitle.text + " (${_dividerPercent.text}%)",
+            name: _dividerTitle.text=="" 
+            ? "No title (${_dividerPercent.text}%)"
+            :  _dividerTitle.text + " (${_dividerPercent.text}%)",
             percentage: double.parse(_dividerPercent.text),
             //percentage: double.parse(_totalAmount.text) * (double.parse(_dividerPercent.text)/100)
           );

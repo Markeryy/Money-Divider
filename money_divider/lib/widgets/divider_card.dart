@@ -28,7 +28,7 @@ class _DividerCardState extends State<DividerCard> {
 
           Container(
             padding: const EdgeInsets.all(8),
-            child: Text(widget.divider.name),
+            child: Text(widget.divider.name ?? "None"),
           ),
 
           Container(
