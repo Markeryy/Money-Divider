@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../models/money_divider.dart';
 
@@ -38,7 +39,14 @@ class _DividerCardState extends State<DividerCard> {
 
           Container(
             padding: const EdgeInsets.all(8),
-            child: Text(widget.divider.name ?? ""),
+            child: Text(
+              widget.divider.name ?? "",
+              style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
           ),
 
           Container(
@@ -46,7 +54,14 @@ class _DividerCardState extends State<DividerCard> {
             child: Text(
               widget.totalAmount.isEmpty
               ? '0'
-              : (double.parse(widget.totalAmount) * widget.divider.percentage/100).toString()
+              : (double.parse(widget.totalAmount) * widget.divider.percentage/100).toString(),
+
+              style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+
             ),
           )
 

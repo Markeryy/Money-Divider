@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import './divider_card.dart';
 import '../models/money_divider.dart';
 
@@ -22,8 +23,6 @@ class _GetAmountState extends State<GetAmount> {
   final bool _validateDivider =  false;
 
   double currentPercentTotal = 0; // to help with validating total percentage (up to 100 only)
-
-  int dividerCount = 0;
 
   //used for validation of input
   List<MoneyDivider> moneyDividerList = [];
@@ -328,13 +327,14 @@ class _GetAmountState extends State<GetAmount> {
           // GET AMOUNT
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: const Text(
-              'Enter amount to be divided',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30
+            child: 
+              Text(
+                'Enter amount to be divided', // title text
+                style: GoogleFonts.montserrat(
+                  textStyle: const TextStyle(
+                      fontSize: 20),
+                ),
               ),
-            )
           ),
 
           Container(
