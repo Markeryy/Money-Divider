@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../models/money_divider.dart';
 
@@ -23,6 +21,9 @@ class _DividerCardState extends State<DividerCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: //const Color.fromRGBO(115, 70, 86, 1), 
+      //const Color.fromRGBO(242, 149, 68, 0.6),
+      const Color.fromRGBO(166, 78, 70, 0.6),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Column(
         children: [

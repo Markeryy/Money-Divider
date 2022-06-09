@@ -81,7 +81,7 @@ class _GetAmountState extends State<GetAmount> {
       textInputAction: TextInputAction.next,  // go to next input
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText: label,
+        labelText: label + " (optional)",
       ),
     );
   }
@@ -202,7 +202,7 @@ class _GetAmountState extends State<GetAmount> {
       
       child: Container(
         decoration: BoxDecoration(
-          gradient: // display different gradient
+          gradient:
             const LinearGradient(
               colors: [Colors.red, Colors.purple],
               begin: Alignment.bottomRight,
@@ -230,70 +230,73 @@ class _GetAmountState extends State<GetAmount> {
             context: context,
             builder: (context) => Form(
               key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+              child: Container(
+                color: const Color.fromRGBO(116, 78, 70, 1),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
             
-                  // GET DIVIDER TITLE
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
-                    child: w_buildDividerTitleTextField('Divider Title'),
-                  ),
+                    // GET DIVIDER TITLE
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(30, 20, 30, 10),
+                      child: w_buildDividerTitleTextField('Divider Title'),
+                    ),
             
-                  // GET DIVIDER PERCENTAGE
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                    child: w_buildDividerPercentTextField('Divider Percent'),
-                  ), 
+                    // GET DIVIDER PERCENTAGE
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      child: w_buildDividerPercentTextField('Divider Percent'),
+                    ), 
             
-                  // BUTTONS
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        
-                        // SAVE DIVIDER BUTTON
-                        w_addDividerButton(),
+                    // BUTTONS
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          
+                          // SAVE DIVIDER BUTTON
+                          w_addDividerButton(),
 
-                        // CLOSE BUTTON
-                        InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: // display different gradient
-                                const LinearGradient(
-                                  colors: [Colors.orange, Colors.red],
-                                  begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft,
+                          // CLOSE BUTTON
+                          InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: // display different gradient
+                                  const LinearGradient(
+                                    colors: [Colors.orange, Colors.red],
+                                    begin: Alignment.bottomRight,
+                                    end: Alignment.topLeft,
+                                  ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                              child: const Text(
+                                'Close',
+                                style: TextStyle(
+                                  fontSize: 14,
                                 ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                            child: const Text(
-                              'Close',
-                              style: TextStyle(
-                                fontSize: 14,
                               ),
                             ),
+
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
                           ),
 
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // padding to increase height when keyboard opens
-                  Padding(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
-                  ),
-                  
-                ],
+                    // padding to increase height when keyboard opens
+                    Padding(
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
+                    ),
+                    
+                  ],
+                ),
               ),
             ),
           );
