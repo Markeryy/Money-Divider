@@ -122,6 +122,7 @@ class _GetAmountState extends State<GetAmount> {
     return InkWell(
       
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.3,
         decoration: BoxDecoration(
           gradient: // display different gradient
             const LinearGradient(
@@ -169,6 +170,7 @@ class _GetAmountState extends State<GetAmount> {
   Widget w_clearDividerButton() {
     return InkWell(
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.3,
         decoration: BoxDecoration(
           gradient: // display different gradient
             const LinearGradient(
@@ -201,8 +203,8 @@ class _GetAmountState extends State<GetAmount> {
 
   Widget showAddDivider() {
     return InkWell(
-      
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.3,
         decoration: BoxDecoration(
           gradient:
             const LinearGradient(
@@ -264,6 +266,7 @@ class _GetAmountState extends State<GetAmount> {
                           // CLOSE BUTTON
                           InkWell(
                             child: Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
                               decoration: BoxDecoration(
                                 gradient: // display different gradient
                                   const LinearGradient(
