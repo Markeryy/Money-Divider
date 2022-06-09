@@ -178,9 +178,9 @@ class _GetAmountState extends State<GetAmount> {
         decoration: BoxDecoration(
           gradient: // display different gradient
             const LinearGradient(
-              colors: [Colors.red, Colors.purple],
+              colors: [Colors.orange, Colors.red],
               begin: Alignment.bottomRight,
-              end: Alignment.topLeft
+              end: Alignment.topLeft,
             ),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -254,7 +254,7 @@ class _GetAmountState extends State<GetAmount> {
                     child: w_buildDividerPercentTextField('Divider Percent'),
                   ), 
             
-                  // ADD BUTTON
+                  // BUTTONS
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     margin: const EdgeInsets.only(bottom: 10),
@@ -271,9 +271,9 @@ class _GetAmountState extends State<GetAmount> {
                             decoration: BoxDecoration(
                               gradient: // display different gradient
                                 const LinearGradient(
-                                  colors: [Colors.red, Colors.purple],
+                                  colors: [Colors.orange, Colors.red],
                                   begin: Alignment.bottomRight,
-                                  end: Alignment.topLeft
+                                  end: Alignment.topLeft,
                                 ),
                               borderRadius: BorderRadius.circular(10),
                             ),
