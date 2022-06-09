@@ -234,10 +234,12 @@ class _GetAmountState extends State<GetAmount> {
 
           // BOTTOM SHEET
           showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
             builder: (context) => Form(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
             
                   // GET DIVIDER TITLE
@@ -255,6 +257,7 @@ class _GetAmountState extends State<GetAmount> {
                   // ADD BUTTON
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -291,6 +294,11 @@ class _GetAmountState extends State<GetAmount> {
 
                       ],
                     ),
+                  ),
+
+                  // padding to increase height when keyboard opens
+                  Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
                   ),
                   
                 ],
