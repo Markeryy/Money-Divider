@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.money_divider">
+    package="com.markery.money_divider">
    <application
-        android:label="money_divider"
+        android:label="Money Divider"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

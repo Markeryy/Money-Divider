@@ -1,4 +1,4 @@
-package com.example.money_divider
+package com.markery.money_divider
 
 import io.flutter.embedding.android.FlutterActivity
 
